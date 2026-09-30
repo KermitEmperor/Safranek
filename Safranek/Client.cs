@@ -18,8 +18,6 @@ public class Client(string token) {
     
 
     public async Task Start() {
-        
-        
         await _socketClient.LoginAsync(TokenType.Bot, token);
         await _socketClient.StartAsync();
         

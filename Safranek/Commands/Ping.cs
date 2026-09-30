@@ -1,5 +1,6 @@
 using Discord;
 using Discord.Interactions;
+using Discord.WebSocket;
 
 namespace Safranek.Commands;
 
@@ -17,4 +18,8 @@ public class Ping : CommandBase{
     }
 
     public override SlashCommandProperties CommandProperties { get; }
+    
+    public override async Task Runnable(SocketSlashCommand commandCall) {
+        await commandCall.RespondAsync("Pong!");
+    }
 }

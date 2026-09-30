@@ -37,7 +37,6 @@ public sealed class CommandsRegistry {
     }
 
     public void RegisterCommands(DiscordSocketClient client, ulong guildId) {
-        DiscoverAndRegister();
         SocketGuild? guild = client.GetGuild(guildId);
         if (guild is null) {
             Console.WriteLine($"Guild {guildId} doesn't exist");
@@ -57,7 +56,6 @@ public sealed class CommandsRegistry {
     }
     
     public void RegisterCommands(DiscordSocketClient client) {
-        DiscoverAndRegister();
         foreach (var command in GetCommands()) {
             try {
                 client.CreateGlobalApplicationCommandAsync(command.Value.CommandProperties);
@@ -67,5 +65,9 @@ public sealed class CommandsRegistry {
                 Console.WriteLine(json);
             }
         }
+    }
+
+    public async Task CommandHandler(SocketSlashCommand commandCall) {
+        await _commands[commandCall.CommandName].Runnable(commandCall);
     }
 }
