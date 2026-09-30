@@ -21,7 +21,7 @@ public sealed class CommandsRegistry {
         _commands.Add((string)command.CommandProperties.Name, command);
     }
 
-    public Dictionary<string, CommandBase> GetCommands() {
+    public IReadOnlyDictionary<string, CommandBase> GetCommands() {
         return _commands;
     }
 
