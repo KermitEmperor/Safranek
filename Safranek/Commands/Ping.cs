@@ -4,10 +4,8 @@ using Discord.Interactions;
 namespace Safranek.Commands;
 
 public class Ping : CommandBase{
-    private SlashCommandProperties _commandProperties;
-
     public Ping() {
-        _commandProperties = Build();
+        CommandProperties = Build();
     }
     
     public override SlashCommandProperties Build() {
@@ -18,5 +16,5 @@ public class Ping : CommandBase{
         return builder.Build();
     }
 
-    public override SlashCommandProperties CommandProperties => _commandProperties;
+    public override SlashCommandProperties CommandProperties { get; }
 }
