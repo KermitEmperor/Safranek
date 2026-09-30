@@ -8,13 +8,17 @@ public class Client(string token) {
     private readonly string _token = token;
     
     public DiscordSocketClient SocketClient => _socketClient;
-    
 
-    public async Task Start() {
+    public void AttachLogger() {
         _socketClient.Log += message => {
             Console.WriteLine(message);
             return Task.CompletedTask;
         }; 
+    }
+    
+
+    public async Task Start() {
+        
         
         await _socketClient.LoginAsync(TokenType.Bot, token);
         await _socketClient.StartAsync();
