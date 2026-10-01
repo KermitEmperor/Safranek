@@ -7,7 +7,7 @@ namespace Safranek;
 public class Client : DiscordSocketClient {
     private readonly string _token;
 
-    public Client(string token) : base() {
+    public Client(string token) {
         _token = token;
         //don't know about the validity of attaching events like this
         AttachLogger();
