@@ -3,14 +3,10 @@ using Discord.WebSocket;
 
 namespace Safranek;
 
-public class Client(string token) {
-    private DiscordSocketClient _socketClient = new();
-    private readonly string _token = token;
-    
-    public DiscordSocketClient SocketClient => _socketClient;
+public class Client(string token) : DiscordSocketClient {
 
     public void AttachLogger() {
-        _socketClient.Log += message => {
+        Log += message => {
             Console.WriteLine(message);
             return Task.CompletedTask;
         }; 
@@ -18,9 +14,10 @@ public class Client(string token) {
     
 
     public async Task Start() {
-        await _socketClient.LoginAsync(TokenType.Bot, token);
-        await _socketClient.StartAsync();
+        await LoginAsync(TokenType.Bot, token);
+        await StartAsync();
         
         await Task.Delay(-1);
     }
+
 }

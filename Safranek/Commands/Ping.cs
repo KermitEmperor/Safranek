@@ -19,7 +19,7 @@ public class Ping : CommandBase{
 
     public override SlashCommandProperties CommandProperties { get; }
     
-    public override async Task Runnable(SocketSlashCommand commandCall) {
+    public override async Task Runnable(SocketSlashCommand commandCall, Client client) {
         await commandCall.RespondAsync("Pong!");
     }
 }

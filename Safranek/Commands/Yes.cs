@@ -20,7 +20,7 @@ public class Yes : CommandBase {
 
     public override SlashCommandProperties CommandProperties { get; }
 
-    public override Task Runnable(SocketSlashCommand commandCall) {
+    public override Task Runnable(SocketSlashCommand commandCall, Client client) {
         return commandCall.RespondAsync("YES!!!!!");
     }
 }

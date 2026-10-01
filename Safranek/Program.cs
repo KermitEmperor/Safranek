@@ -16,20 +16,21 @@ class Program {
                 
                 //Guild ID for some reason doesn't exist?
 
-                client.SocketClient.Ready += () => {
-                    CommandsRegistry.Instance.RegisterCommands(client.SocketClient, ulong.Parse(guildId));
+                client.Ready += () => {
+                    CommandsRegistry.Instance.RegisterCommands(client, ulong.Parse(guildId));
                     Console.WriteLine("Registered successfully");
                     return Task.CompletedTask;
                 };
             } else if (args.Contains("-global")) {
-                CommandsRegistry.Instance.RegisterCommands(client.SocketClient);
+                CommandsRegistry.Instance.RegisterCommands(client);
             }
         }
 
 
 
-        client.SocketClient.SlashCommandExecuted += CommandsRegistry.Instance.CommandHandler;
-        
+        client.SlashCommandExecuted += async (slashCommand) => {
+            await CommandsRegistry.Instance.CommandHandler(slashCommand, client);
+        };
         await client.Start();
     }
 }
