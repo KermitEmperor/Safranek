@@ -12,6 +12,7 @@ public class Client : DiscordSocketClient {
         //don't know about the validity of attaching events like this
         AttachLogger();
         AttachSlashCommandHandler();
+        AttachComponentCommandHandler();
     }
 
     private void AttachLogger() {
@@ -25,7 +26,13 @@ public class Client : DiscordSocketClient {
         SlashCommandExecuted += async (slashCommand) => {
             await CommandsRegistry.Instance.CommandHandler(slashCommand, this);
         };
-    } 
+    }
+
+    private void AttachComponentCommandHandler() {
+        ButtonExecuted += async (component) => {
+            await CommandsRegistry.Instance.CommandComponentHandler(component, this);
+        };
+    }
     
 
     public async Task Start() {

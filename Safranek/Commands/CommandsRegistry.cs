@@ -70,4 +70,12 @@ public sealed class CommandsRegistry {
     public async Task CommandHandler(SocketSlashCommand commandCall, Client client) {
         await _commands[commandCall.CommandName].Runnable(commandCall, client);
     }
+
+    public async Task CommandComponentHandler(SocketMessageComponent component, Client client) {
+        try {
+            await _commands[component.Data.CustomId.Split("-")[0]].ComponentRunnable(component, client);
+        } catch (Exception ex) {
+            Console.WriteLine(ex);
+        }
+    }
 }
