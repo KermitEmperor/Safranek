@@ -12,6 +12,7 @@ public class Yes : CommandBase {
     
     public override SlashCommandProperties Build() {
         SlashCommandBuilder builder = new();
+        //builder.WithName() can also work here
         builder.Name = "yes";
         builder.Description = "Minimal Example command";
         

@@ -9,6 +9,7 @@ public class Client : DiscordSocketClient {
 
     public Client(string token) : base() {
         _token = token;
+        //don't know about the validity of attaching events like this
         AttachLogger();
         AttachSlashCommandHandler();
     }

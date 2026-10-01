@@ -13,8 +13,8 @@ class Program {
             if (args.Contains("-guild")) {
                 string guildId = args[args.IndexOf("-guild") + 1];
                 
-                //Guild ID for some reason doesn't exist?
-
+                
+                //Kept here to avoid needless event registration
                 client.Ready += () => {
                     CommandsRegistry.Instance.RegisterCommands(client, ulong.Parse(guildId));
                     Console.WriteLine("Registered successfully");
