@@ -7,7 +7,6 @@ namespace Safranek;
 class Program {
     public static async Task Main(string[] args) {
         Client client = new(Environment.GetEnvironmentVariable("TOKEN")!);
-        client.AttachLogger();
         CommandsRegistry.Instance.DiscoverAndRegister();
         
         if (args.Contains("--regCommands")) {
@@ -25,12 +24,7 @@ class Program {
                 CommandsRegistry.Instance.RegisterCommands(client);
             }
         }
-
-
-
-        client.SlashCommandExecuted += async (slashCommand) => {
-            await CommandsRegistry.Instance.CommandHandler(slashCommand, client);
-        };
+        
         await client.Start();
     }
 }
