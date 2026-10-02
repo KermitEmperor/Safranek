@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Discord;
+using Discord.Rest;
 using Discord.WebSocket;
 
 namespace Safranek.Commands;
@@ -9,7 +10,7 @@ public class Ping : CommandBase{
         CommandProperties = Build();
     }
     public override SlashCommandProperties Build() {
-        var builder = new SlashCommandBuilder();
+        SlashCommandBuilder builder = new();
         builder.WithName("ping");
         builder.WithDescription("Replies pong!");
         return builder.Build();
@@ -17,12 +18,23 @@ public class Ping : CommandBase{
 
     public override SlashCommandProperties CommandProperties { get; }
     public override async Task Runnable(SocketSlashCommand commandCall, Client client) {
-        await commandCall.Channel.TriggerTypingAsync();
-        var delay = Stopwatch.StartNew();
-        await commandCall.RespondAsync("🏓 Pong !");
-        var response = await commandCall.GetOriginalResponseAsync();
-        delay.Stop();
-        await response.ModifyAsync(m => m.Content = "🏓  Pong !\n*delay: "+delay.ElapsedMilliseconds+"ms*");
+        //Discord already displays typing, but its useful when expecting an edit
+        //await commandCall.Channel.TriggerTypingAsync();
+        Stopwatch delay = Stopwatch.StartNew();
+        
+        EmbedBuilder builder = new();
+        builder.WithTitle("🏓 Pong !");
+        builder.WithFooter("waiting...");
 
+        
+        await commandCall.RespondAsync(embed: builder.Build());
+        
+        RestInteractionMessage response = await commandCall.GetOriginalResponseAsync();
+        
+        delay.Stop();
+        
+        builder.WithFooter("delay: ~" + delay.ElapsedMilliseconds + "ms");
+        await response.ModifyAsync(m => m.Embed = builder.Build());
+        
     }
 }
