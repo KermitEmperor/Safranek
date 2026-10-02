@@ -12,29 +12,18 @@ public class Ping : CommandBase{
     public override SlashCommandProperties Build() {
         SlashCommandBuilder builder = new();
         builder.WithName("ping");
-        builder.WithDescription("Replies pong!");
+        builder.WithDescription("Replies pong! (Also gives Discord API Latency in milliseconds)");
         return builder.Build();
     }
 
     public override SlashCommandProperties CommandProperties { get; }
     public override async Task Runnable(SocketSlashCommand commandCall, Client client) {
-        //Discord already displays typing, but its useful when expecting an edit
-        //await commandCall.Channel.TriggerTypingAsync();
-        Stopwatch delay = Stopwatch.StartNew();
         
         EmbedBuilder builder = new();
         builder.WithTitle("🏓 Pong !");
-        builder.WithFooter("waiting...");
-
+        builder.WithFooter("delay: ~" + client.Latency + "ms");
         
         await commandCall.RespondAsync(embed: builder.Build());
-        
-        RestInteractionMessage response = await commandCall.GetOriginalResponseAsync();
-        
-        delay.Stop();
-        
-        builder.WithFooter("delay: ~" + delay.ElapsedMilliseconds + "ms");
-        await response.ModifyAsync(m => m.Embed = builder.Build());
         
     }
 }
