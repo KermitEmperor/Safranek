@@ -12,7 +12,7 @@ public sealed class CommandsRegistry {
     //Holy shit i just pressed tab after writing "selaed" and it passed this entitre singleton here
     //I mean thats what i wanted but still damn, lemme read it atleast
     private static readonly Lazy<CommandsRegistry> Lazy = new Lazy<CommandsRegistry>(() => new CommandsRegistry());
-    public static CommandsRegistry Instance { get { return Lazy.Value; } }
+    public static CommandsRegistry Instance => Lazy.Value;
     private static readonly Dictionary<string,CommandBase> _commands = new();
     
     private CommandsRegistry() { }
