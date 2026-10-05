@@ -1,6 +1,6 @@
-﻿using System.Runtime.CompilerServices;
-using Discord;
-using Safranek.Commands;
+﻿using Safranek.Commands;
+using Safranek.Database;
+using Safranek.Database.Types;
 
 namespace Safranek;
 
@@ -8,6 +8,8 @@ class Program {
     public static async Task Main(string[] args) {
         Client client = new(Environment.GetEnvironmentVariable("TOKEN")!);
         CommandsRegistry.Instance.DiscoverAndRegister();
+        await DB.Instance.getConnection().OpenAsync();
+        Guilds.Init();
         
         if (args.Contains("--regCommands")) {
             if (args.Contains("-guild")) {
