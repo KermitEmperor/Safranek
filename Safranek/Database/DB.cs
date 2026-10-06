@@ -23,11 +23,11 @@ public sealed class DB {
     public void TableRegistration() {
         var tables = Assembly.GetExecutingAssembly()
             .GetTypes()
-            .Where(t => t.GetInterface("ITableBase") is not null && !t.IsAbstract);
+            .Where(t => t.GetInterface(nameof(ITableBase)) is not null && !t.IsAbstract && !t.IsInterface);
 
         foreach (var tableType in tables) {
             tableType.GetMethod("Init")?.Invoke(null, null);
-            Console.WriteLine($"Table named {tableType.GetField("Name")?.GetValue(tableType)} from {tableType.Name} has been instantiated!");
+            Console.WriteLine($"Table named {typeof(Guilds).GetProperty("Name")!.GetValue(tableType)} from {tableType.Name} has been instantiated!");
         }
     }
 }
