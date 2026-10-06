@@ -9,7 +9,7 @@ class Program {
         Client client = new(Environment.GetEnvironmentVariable("TOKEN")!);
         CommandsRegistry.Instance.DiscoverAndRegister();
         await DB.Instance.getConnection().OpenAsync();
-        Guilds.Init();
+        DB.Instance.TableRegistration();
         
         if (args.Contains("--regCommands")) {
             if (args.Contains("-guild")) {

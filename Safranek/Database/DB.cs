@@ -1,5 +1,7 @@
 
+using System.Reflection;
 using Microsoft.Data.Sqlite;
+using Safranek.Commands;
 using Safranek.Database.Types;
 
 namespace Safranek.Database;
@@ -16,5 +18,16 @@ public sealed class DB {
 
     public SqliteConnection getConnection() {
         return _connection;
+    }
+
+    public void TableRegistration() {
+        var tables = Assembly.GetExecutingAssembly()
+            .GetTypes()
+            .Where(t => t.GetInterface("ITableBase") is not null && !t.IsAbstract);
+
+        foreach (var tableType in tables) {
+            tableType.GetMethod("Init")?.Invoke(null, null);
+            Console.WriteLine($"Table named {tableType.GetField("Name")?.GetValue(tableType)} from {tableType.Name} has been instantiated!");
+        }
     }
 }

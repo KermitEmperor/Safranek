@@ -1,9 +1,10 @@
 using Microsoft.Data.Sqlite;
+using Safranek.Commands;
 
 namespace Safranek.Database.Types;
 
-public class Guilds {
-    public static string Name => "guilds";
+public class Guilds : ITableBase {
+    public static string Name = "guilds";
 
     public static void Init() {
         SqliteCommand command = DB.Instance.getConnection().CreateCommand();
