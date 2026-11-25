@@ -4,9 +4,7 @@ using Discord.WebSocket;
 namespace Safranek.Commands;
 
 public class Ping : CommandBase{
-    public Ping() {
-        CommandProperties = Build();
-    }
+    
     public sealed override SlashCommandProperties Build() {
         SlashCommandBuilder builder = new SlashCommandBuilder()
             .WithName("ping")

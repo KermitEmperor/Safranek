@@ -5,9 +5,6 @@ using Safranek.Database.Types;
 namespace Safranek.Commands;
 
 public class SqlTest : CommandBase{
-    public SqlTest() {
-        CommandProperties = Build();
-    }
     
     public override SlashCommandProperties Build() {
         SlashCommandBuilder builder = new SlashCommandBuilder()

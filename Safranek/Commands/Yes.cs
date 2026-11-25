@@ -4,11 +4,6 @@ using Discord.WebSocket;
 namespace Safranek.Commands;
 
 public class Yes : CommandBase {
-
-    public Yes() {
-        CommandProperties = Build();
-    }
-    
     
     public sealed override SlashCommandProperties Build() {
         SlashCommandBuilder builder = new();

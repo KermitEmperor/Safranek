@@ -5,10 +5,6 @@ namespace Safranek.Commands;
 
 public class PingAll : CommandBase
 {
-    public PingAll()
-    {
-        CommandProperties = Build();
-    }
 
     public override SlashCommandProperties Build()
     {
@@ -20,16 +16,22 @@ public class PingAll : CommandBase
 
     public override async Task Runnable(SocketSlashCommand commandCall, Client client)
     {
-        EmbedBuilder builder = new EmbedBuilder()
-            .WithTitle("Pinging all the people in the channel!");
-        
-        
+        EmbedBuilder builder = new EmbedBuilder();
+        ulong? guildId = commandCall.GuildId;
+        if (!guildId.HasValue)
+        {
+            builder.WithTitle("GuildID was invalid!");
+            await commandCall.RespondAsync(embed: builder.Build(), ephemeral: true);
+            return;
+        } 
+        //TODO make this less stupid, like avoiding commandCall.RespondAsync two differently
+        builder.WithTitle("Pinging all the people in the channel!");
         await commandCall.RespondAsync(embed: builder.Build(), ephemeral: true);
-        
+
         ISocketMessageChannel channel = commandCall.Channel;
-        var users = await client.GetGuild((ulong)commandCall.GuildId).GetUsersAsync().FlattenAsync();
+        IEnumerable<IGuildUser> users = await client.GetGuild((ulong)guildId!).GetUsersAsync().FlattenAsync();
         string mentions = "";
-        foreach (var user in users)
+        foreach (IGuildUser user in users)
         {
             mentions+=user.Mention;
         }
