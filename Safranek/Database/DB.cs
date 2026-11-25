@@ -6,17 +6,17 @@ using Safranek.Database.Types;
 
 namespace Safranek.Database;
 
-public sealed class DB {
-    private static readonly Lazy<DB> Lazy = new Lazy<DB>(() => new DB());
-    public static DB Instance => Lazy.Value;
+public sealed class Db {
+    private static readonly Lazy<Db> Lazy = new Lazy<Db>(() => new Db());
+    public static Db Instance => Lazy.Value;
     private readonly SqliteConnection _connection;
 
-    private DB() {
+    private Db() {
         _connection = new SqliteConnection("Data Source=safranek.db");
         _connection.Open();
     }
 
-    public SqliteConnection getConnection() {
+    public SqliteConnection GetConnection() {
         return _connection;
     }
 

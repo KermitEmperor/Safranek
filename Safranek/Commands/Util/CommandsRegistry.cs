@@ -4,7 +4,7 @@ using Discord.Net;
 using Discord.WebSocket;
 using Newtonsoft.Json;
 
-namespace Safranek.Commands;
+namespace Safranek.Commands.Util;
 
 
 //Please read https://csharpindepth.com/Articles/Singleton indepth, using code that you're unfamiliar with is bad practice
@@ -13,12 +13,12 @@ public sealed class CommandsRegistry {
     //I mean thats what i wanted but still damn, lemme read it atleast
     private static readonly Lazy<CommandsRegistry> Lazy = new Lazy<CommandsRegistry>(() => new CommandsRegistry());
     public static CommandsRegistry Instance => Lazy.Value;
-    private static readonly Dictionary<string,CommandBase> _commands = new();
+    private readonly Dictionary<string,CommandBase> _commands = new();
     
     private CommandsRegistry() { }
 
     public void RegisterCommand(CommandBase command) {
-        _commands.Add((string)command.CommandProperties.Name, command);
+        _commands.Add((string)command.Build().Name, command);
     }
 
     public IReadOnlyDictionary<string, CommandBase> GetCommands() {
@@ -36,6 +36,7 @@ public sealed class CommandsRegistry {
         }
     }
 
+    //TODO turn this to a task
     public void RegisterCommands(Client client, ulong guildId) {
         SocketGuild? guild = client.GetGuild(guildId);
         if (guild is null) {
@@ -44,7 +45,7 @@ public sealed class CommandsRegistry {
         }
         foreach (var command in GetCommands()) {
             try {
-                SlashCommandProperties commandProp = command.Value.CommandProperties;
+                SlashCommandProperties commandProp = command.Value.Build();
                 guild.CreateApplicationCommandAsync(commandProp);
                 Console.WriteLine($"{commandProp.Name} has been registered to guild with id {guildId}");
             }
@@ -55,10 +56,11 @@ public sealed class CommandsRegistry {
         }
     }
     
+    //TODO turn this to a task
     public void RegisterCommands(Client client) {
         foreach (var command in GetCommands()) {
             try {
-                client.CreateGlobalApplicationCommandAsync(command.Value.CommandProperties);
+                client.CreateGlobalApplicationCommandAsync(command.Value.Build());
             }
             catch (HttpException exception) {
                 var json = JsonConvert.SerializeObject(exception.Errors, Formatting.Indented);

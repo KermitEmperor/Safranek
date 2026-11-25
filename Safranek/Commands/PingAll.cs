@@ -1,5 +1,6 @@
 using Discord;
 using Discord.WebSocket;
+using Safranek.Commands.Util;
 
 namespace Safranek.Commands;
 
@@ -29,7 +30,7 @@ public class PingAll : CommandBase
         await commandCall.RespondAsync(embed: builder.Build(), ephemeral: true);
 
         ISocketMessageChannel channel = commandCall.Channel;
-        IEnumerable<IGuildUser> users = await client.GetGuild((ulong)guildId!).GetUsersAsync().FlattenAsync();
+        IEnumerable<IGuildUser> users = await client.GetGuild((ulong)guildId).GetUsersAsync().FlattenAsync();
         string mentions = "";
         foreach (IGuildUser user in users)
         {

@@ -1,5 +1,6 @@
 using Discord;
 using Discord.WebSocket;
+using Safranek.Commands.Util;
 using Safranek.Database.Types;
 
 namespace Safranek.Commands;
@@ -24,10 +25,10 @@ public class SqlTest : CommandBase{
     public override async Task Runnable(SocketSlashCommand commandCall, Client client) {
         if (commandCall.GuildId is not null) {
             if ((long)commandCall.Data.Options.First().Value == 1) {
-                Guilds.addServer(commandCall.GuildId.Value);
+                Guilds.AddServer(commandCall.GuildId.Value);
                 await commandCall.RespondAsync($"Guild {commandCall.GuildId.Value} added to SQLite db");
             } else {
-                Guilds.removeServer(commandCall.GuildId.Value);
+                Guilds.RemoveServer(commandCall.GuildId.Value);
                 await commandCall.RespondAsync($"Guild {commandCall.GuildId.Value} removed from SQLite db");
             }
         } else {
