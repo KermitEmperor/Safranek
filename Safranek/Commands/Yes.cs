@@ -19,8 +19,6 @@ public class Yes : CommandBase {
         return builder.Build();
     }
 
-    public override SlashCommandProperties CommandProperties { get; }
-
     public override Task Runnable(SocketSlashCommand commandCall, Client client) {
         return commandCall.RespondAsync("YES!!!!!");
     }

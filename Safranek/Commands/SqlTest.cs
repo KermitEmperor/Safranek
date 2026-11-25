@@ -24,7 +24,6 @@ public class SqlTest : CommandBase{
 
         return builder.Build();
     }
-    public override SlashCommandProperties CommandProperties { get; }
     public override async Task Runnable(SocketSlashCommand commandCall, Client client) {
         if (commandCall.GuildId is not null) {
             if ((long)commandCall.Data.Options.First().Value == 1) {

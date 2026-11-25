@@ -14,7 +14,6 @@ public class Ping : CommandBase{
         return builder.Build();
     }
 
-    public override SlashCommandProperties CommandProperties { get; }
     public override async Task Runnable(SocketSlashCommand commandCall, Client client) {
         EmbedBuilder builder = new EmbedBuilder()
             .WithTitle("🏓 Pong !")
