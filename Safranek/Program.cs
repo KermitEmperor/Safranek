@@ -11,7 +11,11 @@ class Program {
         DiscordSocketConfig config = new DiscordSocketConfig
         {
             AlwaysDownloadUsers = true,
-            GatewayIntents = GatewayIntents.GuildMembers | GatewayIntents.Guilds | GatewayIntents.GuildMessages,
+            GatewayIntents = 
+                GatewayIntents.GuildMembers | 
+                GatewayIntents.Guilds | 
+                GatewayIntents.GuildMessages | 
+                GatewayIntents.MessageContent,
         };
         Client client = new(Environment.GetEnvironmentVariable("TOKEN")!,  config);
         CommandsRegistry.Instance.DiscoverAndRegister();
