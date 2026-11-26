@@ -4,7 +4,7 @@ using Safranek.Commands.Util;
 
 namespace Safranek.Commands;
 
-public class WhoNotWote : CommandBase
+public class WhoNotVote : CommandBase
 {
     public override SlashCommandProperties Build()
     {
@@ -14,7 +14,7 @@ public class WhoNotWote : CommandBase
             .AddOption(new SlashCommandOptionBuilder()
                     .WithName("pollid")
                     .WithType(ApplicationCommandOptionType.String)
-                    .WithDescription("Copy the poll id and paste it here as an option")
+                    .WithDescription("Copy the poll id and paste it here")
                     .WithRequired(true)
             );
 
@@ -48,7 +48,7 @@ public class WhoNotWote : CommandBase
         if (!poll.HasValue)
         {
             builder.WithTitle("Invalid ID or Poll doesn't exit");
-            builder.WithDescription($"Could not get poll or message {id}");
+            builder.WithDescription($"Could not get poll or message {id} or message was in different channel");
             await commandCall.RespondAsync(embed: builder.Build(), ephemeral: true);
             return;
         }
@@ -62,7 +62,7 @@ public class WhoNotWote : CommandBase
             }
         }
 
-        foreach (var user in await commandCall.Channel.GetUsersAsync().FlattenAsync())
+        foreach (var user in await msg!.Channel.GetUsersAsync().FlattenAsync())
         {
             if (!mentions.Contains(user.Mention) && !user.IsBot)
             {
