@@ -1,12 +1,21 @@
-﻿using Safranek.Commands;
+﻿using Discord;
+using Discord.WebSocket;
+using Safranek.Commands;
 using Safranek.Commands.Util;
 
 namespace Safranek;
 
 class Program {
-    public static async Task Main(string[] args) {
-        Client client = new(Environment.GetEnvironmentVariable("TOKEN")!);
+    public static async Task Main(string[] args)
+    {
+        DiscordSocketConfig config = new DiscordSocketConfig
+        {
+            AlwaysDownloadUsers = true,
+            GatewayIntents = GatewayIntents.GuildMembers | GatewayIntents.Guilds | GatewayIntents.GuildMessages,
+        };
+        Client client = new(Environment.GetEnvironmentVariable("TOKEN")!,  config);
         CommandsRegistry.Instance.DiscoverAndRegister();
+        
         
         if (args.Contains("--regCommands")) {
             if (args.Contains("-guild")) {
